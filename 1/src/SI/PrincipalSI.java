@@ -118,6 +118,13 @@ public class PrincipalSI extends JFrame{
             }
             
         });
+         Listar.addActionListener(new ActionListener (){ // Adiciona um Evento ao Item BuscarCLI do menu
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListActionPerformed(e);
+            }
+            
+        });
          
         setLayout(null); 
         setTitle("Monitor Sistemas de Informação"); setSize(820, 435); 
@@ -141,6 +148,8 @@ public class PrincipalSI extends JFrame{
       public void BuscActionPerformed(ActionEvent evt){
         new BuscarSI();
     }
-         
+      public void ListActionPerformed(ActionEvent evt){
+        new ListarTodos();
+    }   
        
 }

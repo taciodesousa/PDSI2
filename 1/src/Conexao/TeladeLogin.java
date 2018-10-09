@@ -42,9 +42,6 @@ public class TeladeLogin extends JFrame {
     
     public TeladeLogin() {
 
-        
-
-
         jPanel3.setLayout(null);
         jPanel3.setBounds(0, 0, 509, 405);
 
@@ -68,8 +65,6 @@ public class TeladeLogin extends JFrame {
 
         bar.setBounds(30, 300, 420, 30);
         bar.setStringPainted(true);
-
-
 
         jPanel3.add(OK);
         jPanel3.add(cancelar);
@@ -140,6 +135,7 @@ public class TeladeLogin extends JFrame {
                         }
 
                     }
+                    
                     DAO.listarLogin(nome1.getText(), senha1.getText(), (String) Curso.getSelectedItem());
 
                     new TeladeLogin().setVisible(false);
