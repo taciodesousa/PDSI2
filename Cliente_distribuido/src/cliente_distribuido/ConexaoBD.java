@@ -1,5 +1,5 @@
 
-package Conexao;
+package cliente_distribuido;
 
 import java.sql.*;
 import java.util.logging.Level;
