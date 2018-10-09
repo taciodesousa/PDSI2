@@ -18,15 +18,17 @@ public class DAO {
     ConexaoBD connection = new ConexaoBD();
 
     public int verificaUsuario(String nomeUsuario, String senhaUsuario) throws ClassNotFoundException {
-
+        
         connection.Conexao();
-        String cmd = "select login, senha from login where login = '"+nomeUsuario+"';";
+        String cmd = "select login, senha from login where login = '"+nomeUsuario+"' and Senha;";
              
         Statement stmt;
         ResultSet dados = null;
         
         String user = null, senha = null;
             
+       
+        
         try{
         stmt = connection.con.prepareStatement(cmd);
 
@@ -38,9 +40,10 @@ public class DAO {
             System.out.println("Usuario: "+user+"     Senha: "+senha);
         }
         }catch(SQLException v){
-            System.out.println("\n\nErro na verificação do Banco!\n\n");
+            System.out.println("\n\nErro: "+v+" na verificação do Banco!\n\n");
         }
 
+        
         return 0;
     }
 
