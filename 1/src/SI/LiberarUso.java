@@ -59,7 +59,8 @@ public class LiberarUso extends JFrame {
                             //Enviar Requisicao de conexao Cliente
                             Socket cliente = new Socket("127.0.0.1", 9010);
                             PrintStream saida = new PrintStream(cliente.getOutputStream());
-                            saida.println();
+                            saida.println("joao, jmarcos000");
+                            System.out.println("Enviado para Clinte Distribuido!\n");
                             saida.close();
 
                         } catch (IOException ex) {
@@ -70,6 +71,7 @@ public class LiberarUso extends JFrame {
                         //rintStream saida = new PrintStream(cliente.getOutputStream());
                     }
                 });
+                tsensor3.start();
             }
         });
 

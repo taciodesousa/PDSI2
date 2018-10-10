@@ -60,10 +60,19 @@ public class Cliente_distribuido extends JFrame {
                 Thread tsensor3 = new Thread(new Runnable() {
                     @Override
                     public void run() {
+
                         DAO dao = new DAO();
 
                         System.out.println("Teste1");
                         try {
+
+                            ServerSocket servidor3 = new ServerSocket(9010);
+                            System.out.println("Server Rodando!");
+                            Socket cliente3 = servidor3.accept();
+                            Scanner entrada = new Scanner(cliente3.getInputStream());
+                            String a = entrada.nextLine();
+                            System.out.println("Recebido de Liberar Uso: " + a);
+
                             if (!login.getText().equals("")) {
                                 //System.out.println("Senha: "+senha.getText());
                                 //Socket cliente = new Socket("192.168.0.112",9010);
@@ -80,11 +89,6 @@ public class Cliente_distribuido extends JFrame {
                                 //tfsoma.setText(b);
                                 //saida.println(user+pass);
                                 //saida.close();
-
-                                ServerSocket servidor3 = new ServerSocket(9009);
-                                Socket cliente3 = servidor3.accept();
-                                Scanner entrada = new Scanner(cliente3.getInputStream());
-                                String a = entrada.nextLine();
 
                                 /*
                                          if(a == "0"){
