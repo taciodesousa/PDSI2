@@ -72,7 +72,7 @@ public class TeladeLogin extends JFrame {
         jPanel3.add(senha);
         jPanel3.add(senha1);
         jPanel3.add(curs);
-        jPanel3.add(Curso);
+    jPanel3.add(Curso);
         jPanel3.add(nome);
         jPanel3.add(nome1);
         jPanel3.add(bar);
