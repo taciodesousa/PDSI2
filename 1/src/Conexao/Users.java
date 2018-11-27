@@ -110,5 +110,65 @@
 
             connection.Desconecta();
         }
+        
+        public void Excluir_SI(String matricula) {
+
+            try {
+                connection.Conexao();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String sql = "delete from alunos where Matricula='" + matricula + "'";
+
+            try {
+
+                PreparedStatement stmt = connection.con.prepareStatement(sql);
+
+                stmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "EXCLUÍDO COM SUCESSO !");
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+            connection.Desconecta();
+
+        }
+
+        public void Alterar_SI(Alunos Al, String matricula) {
+
+            try {
+                connection.Conexao();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            String sql = "update alunos set Nome = ?, Sexo = ?, DataNascimento = ?, RG = ?, CPF = ?, Matricula = ?, Curso = ?  where Matricula='" + matricula + "'";
+
+            try {
+
+                PreparedStatement stmt = connection.con.prepareStatement(sql);
+
+                stmt.setString(1, Al.getNome());
+                stmt.setString(2, Al.getSexo());
+                stmt.setString(3, Al.getDataNascimento());
+                stmt.setString(4, Al.getRG());
+                stmt.setString(5, Al.getCPF());
+                stmt.setString(6, Al.getMatricula());
+                stmt.setString(7, Al.getCurso());
+
+                stmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Dados alterados com Sucesso !!");
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+
+            connection.Desconecta();
+            
+
+        }
+
 
     }

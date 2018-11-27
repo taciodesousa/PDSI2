@@ -72,7 +72,7 @@ public class TeladeLogin extends JFrame {
         jPanel3.add(senha);
         jPanel3.add(senha1);
         jPanel3.add(curs);
-    jPanel3.add(Curso);
+        jPanel3.add(Curso);
         jPanel3.add(nome);
         jPanel3.add(nome1);
         jPanel3.add(bar);
@@ -125,7 +125,7 @@ public class TeladeLogin extends JFrame {
 
                 public void run() {
 
-                    for (int i = 0; i < 101; i=i+2) {
+                    for (int i = 0; i < 101; i=i+20) {
                         try {
 
                             sleep(100);
