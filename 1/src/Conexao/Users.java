@@ -1,7 +1,6 @@
-﻿package Conexao;
+package Conexao;
 
 import Alunos.Alunos;
-import SI.PeopleLabSI;
 import SI.PrincipalSI;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,10 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-import SI.TelaRelatorioSI;
-import SI.GerarRelatorioSI;
-import com.itextpdf.text.DocumentException;
-import java.io.IOException;
 
 public class Users {
 
@@ -24,14 +19,12 @@ public class Users {
     ConexaoBD connection = new ConexaoBD();
     JProgressBar bar = new JProgressBar();
 
-    PeopleLabSI peox;
-
     public int listarLogin(String nome, String senha, String curso) {
         try {
             connection.Conexao();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Conexão errada !");
-            return 1;
+
         }
 
         Login obj = new Login();
@@ -67,34 +60,32 @@ public class Users {
                     if (nome.equals(obj.getLogin()) && senha.equals(obj.getSenha())) {
                         new PrincipalSI().setVisible(true);
                         return 0;
+
                     } else if (!nome.equals(obj.getLogin()) && !senha.equals(obj.getSenha())) {
                         JOptionPane.showMessageDialog(null, "Login/Senha/Curso Incorretos !");
                         new TeladeLogin().setVisible(true);
-                        return 1;
                     } else {
                         JOptionPane.showMessageDialog(null, "Login/Senha/Curso Incorretos !");
                         new TeladeLogin().setVisible(true);
-                        return 1;
                     }
 
                 } catch (SQLException ex) {
                     Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
-
                 }
                 connection.Desconecta();
                 break;
             }
         }
-        return 0;
+        return 1;
     }
 
-    //Classe Liberar Máquina para uso de Aluno
-    public void LiberarSI(String matricula) {
+    public int LiberarSI(String matricula) {
 
         try {
             connection.Conexao();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            return 1;
         }
         String sql = "delete from em_uso where nome_aluno='" + matricula + "'";
 
@@ -121,6 +112,7 @@ public class Users {
 
         } catch (SQLException ex) {
             System.out.println("Erro no Banco!");
+            return 1;
         }
 
         //SALVANDO AS INFORMAÇÕES NA TABELA RELATÓRIOS
@@ -141,6 +133,7 @@ public class Users {
             //JOptionPane.showMessageDialog(null, "Máquina Liberada!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+            return 1;
         }
 
         try {
@@ -156,9 +149,10 @@ public class Users {
         }
         connection.Desconecta();
 
+        return 0;
     }
 
-    public void adiciona_AlSI(Alunos Alu) {
+    public int adiciona_AlSI(Alunos Alu) {
         try {
             connection.Conexao();
         } catch (ClassNotFoundException ex) {
@@ -186,12 +180,15 @@ public class Users {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+            return 1;
         }
 
         connection.Desconecta();
+
+        return 0;
     }
 
-    public void Excluir_SI(String matricula) {
+    public int Excluir_SI(String matricula) {
 
         try {
             connection.Conexao();
@@ -210,12 +207,14 @@ public class Users {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+            return 1;
         }
         connection.Desconecta();
 
+        return 0;
     }
 
-    public void Alterar_SI(Alunos Al, String matricula) {
+    public int Alterar_SI(Alunos Al, String matricula) {
 
         try {
             connection.Conexao();
@@ -243,54 +242,12 @@ public class Users {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
+            return 1;
         }
 
         connection.Desconecta();
 
-    }
-
-    public void RelatorioDiarioSI(String nome) throws DocumentException, IOException {
-
-        ArrayList<PeopleLabSI> obj = new ArrayList<>();
-
-        String Matricula;
-        String Equipamento;
-        String Entrada;
-        String Saida;
-
-        try {
-            connection.Conexao();
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Conexão errada !");
-        }
-        String cmd = "select nome_aluno, maquina, horario_entrada, horario_saida from relatorio";
-
-        Statement stmt;
-        ResultSet dados = null;
-        try {
-            stmt = connection.con.prepareStatement(cmd);
-
-            dados = stmt.executeQuery(cmd);
-
-            while (dados.next()) {
-
-                Matricula = dados.getString("nome_aluno");
-                Equipamento = dados.getString("maquina");
-                Entrada = dados.getString("horario_entrada");
-                Saida = dados.getString("horario_saida");
-
-                peox = new PeopleLabSI(Matricula, (String) Equipamento, (String) Entrada, (String) Saida);
-                obj.add(peox);
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Especifíque uma data correta  !!");
-            new TelaRelatorioSI();
-        }
-        connection.Desconecta();
-
-        new GerarRelatorioSI(obj, nome);
-
+        return 0;
     }
 
 }
