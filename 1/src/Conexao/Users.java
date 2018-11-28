@@ -1,4 +1,4 @@
-package Conexao;
+﻿package Conexao;
 
 import Alunos.Alunos;
 import SI.PeopleLabSI;
@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import SI.TelaRelatorioSI;
 import SI.GerarRelatorioSI;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 
 public class Users {
 
@@ -247,7 +249,7 @@ public class Users {
 
     }
 
-    public void RelatorioDiarioSI(String nome) {
+    public void RelatorioDiarioSI(String nome) throws DocumentException, IOException {
 
         ArrayList<PeopleLabSI> obj = new ArrayList<>();
 
