@@ -114,6 +114,7 @@ public class PrincipalSI extends JFrame {
             }
 
         });
+        
         Listar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,6 +138,16 @@ public class PrincipalSI extends JFrame {
             }
 
         });
+        
+        
+        listar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListarEmUsoActionPerformed(e);
+            }
+
+        });
+        
         setLayout(null);
         setTitle("Monitor Sistemas de Informação");
         setSize(820, 435);
@@ -175,6 +186,10 @@ public class PrincipalSI extends JFrame {
 
     public void LiberarUso(ActionEvent evt) {
         new LiberarUsoMaquina();
+    }
+
+    public void ListarEmUsoActionPerformed(ActionEvent evt) {
+        new ListarUsoSI();
     }
 
 }
