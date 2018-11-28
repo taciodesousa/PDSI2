@@ -1,6 +1,7 @@
 package Conexao;
 
 import Alunos.Alunos;
+import SI.PeopleLabSI;
 import SI.PrincipalSI;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import SI.TelaRelatorioSI;
+import SI.GerarRelatorioSI;
 
 public class Users {
 
@@ -19,12 +22,14 @@ public class Users {
     ConexaoBD connection = new ConexaoBD();
     JProgressBar bar = new JProgressBar();
 
-    public void listarLogin(String nome, String senha, String curso) {
+    PeopleLabSI peox;
+
+    public int listarLogin(String nome, String senha, String curso) {
         try {
             connection.Conexao();
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Conexão errada !");
-
+            return 1;
         }
 
         Login obj = new Login();
@@ -59,24 +64,29 @@ public class Users {
 
                     if (nome.equals(obj.getLogin()) && senha.equals(obj.getSenha())) {
                         new PrincipalSI().setVisible(true);
-
+                        return 0;
                     } else if (!nome.equals(obj.getLogin()) && !senha.equals(obj.getSenha())) {
                         JOptionPane.showMessageDialog(null, "Login/Senha/Curso Incorretos !");
                         new TeladeLogin().setVisible(true);
+                        return 1;
                     } else {
                         JOptionPane.showMessageDialog(null, "Login/Senha/Curso Incorretos !");
                         new TeladeLogin().setVisible(true);
+                        return 1;
                     }
 
                 } catch (SQLException ex) {
                     Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+
                 }
                 connection.Desconecta();
                 break;
             }
         }
+        return 0;
     }
 
+    //Classe Liberar Máquina para uso de Aluno
     public void LiberarSI(String matricula) {
 
         try {
@@ -111,10 +121,7 @@ public class Users {
             System.out.println("Erro no Banco!");
         }
 
-        
-        
         //SALVANDO AS INFORMAÇÕES NA TABELA RELATÓRIOS
-        
         String COMANDO = "insert into relatorio"
                 + "(nome_aluno, maquina, horario_entrada, horario_saida)"
                 + " values(?,?,?,?)";
@@ -126,38 +133,14 @@ public class Users {
             stmt.setString(2, maquina);
             stmt.setString(3, hora_entrada);
             stmt.setString(4, Double.toString(hora_saida));
-        
 
             stmt.execute();
 
             //JOptionPane.showMessageDialog(null, "Máquina Liberada!");
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         try {
 
             PreparedStatement stmt = connection.con.prepareStatement(sql);
@@ -261,6 +244,50 @@ public class Users {
         }
 
         connection.Desconecta();
+
+    }
+
+    public void RelatorioDiarioSI(String nome) {
+
+        ArrayList<PeopleLabSI> obj = new ArrayList<>();
+
+        String Matricula;
+        String Equipamento;
+        String Entrada;
+        String Saida;
+
+        try {
+            connection.Conexao();
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Conexão errada !");
+        }
+        String cmd = "select nome_aluno, maquina, horario_entrada, horario_saida from relatorio";
+
+        Statement stmt;
+        ResultSet dados = null;
+        try {
+            stmt = connection.con.prepareStatement(cmd);
+
+            dados = stmt.executeQuery(cmd);
+
+            while (dados.next()) {
+
+                Matricula = dados.getString("nome_aluno");
+                Equipamento = dados.getString("maquina");
+                Entrada = dados.getString("horario_entrada");
+                Saida = dados.getString("horario_saida");
+
+                peox = new PeopleLabSI(Matricula, (String) Equipamento, (String) Entrada, (String) Saida);
+                obj.add(peox);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Especifíque uma data correta  !!");
+            new TelaRelatorioSI();
+        }
+        connection.Desconecta();
+
+        new GerarRelatorioSI(obj, nome);
 
     }
 
