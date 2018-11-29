@@ -4,6 +4,9 @@
 
 O Sistema desenvolvido possui as funcionalidades de:
 
-* CRUD (Criação, Leitura, Atualização e Remoção) de usuarios
+* CRUD (Criação, Leitura, Atualização e Remoção) de usuários
 * Controle de Máquinas
 * Geração de Relatórios
+
+
+
